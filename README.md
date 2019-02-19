@@ -39,5 +39,3 @@ Time:            🕛  7.41s
 
 Oleksandrs-MBP:js-automation-wdio oleksandrkhotemskyi$ 
 ```
-
-# Update this readme file once everything is setup!
