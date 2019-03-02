@@ -2,7 +2,7 @@
   "name": "startit-js-automation-wdio",
   "version": "0.0.2",
   "private": true,
-  "description": "Demonstration project for students. Feburary 18",
+  "description": "js-automation-wdio",
   "scripts": {
     "init": "wdio --init",
     "test": "wdio ./wdio.conf.js",

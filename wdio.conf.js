@@ -2,7 +2,7 @@ exports.config = {
   hostname: "localhost",
   port: 4444,
   path: "/wd/hub",
-  specs: ["./tests/lesson3/registration.ts"],
+  specs: ["./tests/lesson3/homework.ts"],
   sync: true,
   services: ["selenium-standalone"],
   capabilities: [
