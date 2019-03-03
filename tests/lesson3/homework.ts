@@ -2,8 +2,11 @@ import { expect } from "chai";
 import * as faker from "faker";
 
 describe("Items search", function() {
-  it("should show results in case multiple items matches", function() {
+  beforeEach(function() {
     browser.url("/");
+  });
+
+  it("should show results in case multiple items matches", function() {
     $('input[name="query"]').setValue("duck");
     $('input[name="query"]').addValue("Enter");
     browser.pause(1000);
@@ -13,7 +16,6 @@ describe("Items search", function() {
   });
 
   it("should redirect to item page in case only one result matches", function() {
-    browser.url("/");
     $('input[name="query"]').setValue("purple");
     $('input[name="query"]').addValue("Enter");
     browser.pause(1000);
@@ -23,7 +25,6 @@ describe("Items search", function() {
   });
 
   it("should redirect to 'no matching results' in case no items matched", function() {
-    browser.url("/");
     $('input[name="query"]').setValue("test123");
     $('input[name="query"]').addValue("Enter");
     browser.pause(1000);
@@ -31,11 +32,17 @@ describe("Items search", function() {
     const searchText = $("#box-search-results > div > em").getText();
     expect(searchText).to.contain("No matching results");
   });
+
+  after(function() {
+    browser.url("/");
+  });
 });
 
 describe("Search results sorting", function() {
-  it("correctly arranges items when using 'by price' sorting", function() {
+  beforeEach(function() {
     browser.url("/");
+  });
+  it("correctly arranges items when using 'by price' sorting", function() {
     $('input[name="query"]').setValue("duck");
     $('input[name="query"]').addValue("Enter");
     browser.pause(1000);
@@ -44,17 +51,13 @@ describe("Search results sorting", function() {
     $('#box-search-results a[href*="sort=price"]').click();
     browser.pause(1000);
     let ducks = $$("#box-search-results .product");
-    let ducksPriceStrings = ducks.map(function(duck) {
-      return duck.getAttribute("data-price");
-    });
-    let duckPriceNumbers = ducksPriceStrings.map(string => parseInt(string)); // array of ducks price
-    const sortByPrice = duckPriceNumbers.slice();
-    sortByPrice.sort((a, b) => a - b); // sorting from A to Z of the array of names
-    expect(duckPriceNumbers).to.deep.equal(sortByPrice);
+    const duckPrice = ducks.map(duck=> parseInt(duck.getAttribute("data-price")));
+    const sortByPrice = duckPrice.map(duck=> duck); // new array for sorting by price 
+    sortByPrice.sort((a, b) => a - b); // sorting from low to high of the array of Price
+    expect(duckPrice).to.deep.equal(sortByPrice);
   });
 
   it("correctly arranges items when using 'by name' sorting", function() {
-    browser.url("/");
     $('input[name="query"]').setValue("duck");
     $('input[name="query"]').addValue("Enter");
     browser.pause(1000);
@@ -63,13 +66,10 @@ describe("Search results sorting", function() {
     $('#box-search-results a[href*="sort=name"]').click();
     browser.pause(1000);
     let ducks = $$("#box-search-results .product");
-    let ducksNames = ducks.map(function(duck) {
-      return duck.getAttribute("data-name");
-    });
-
-    const ducksSortByNames = ducksNames.slice();
+    const ducksNames = ducks.map(duck=> duck.getAttribute("data-name"));
+    const ducksSortByNames = ducksNames.map(duck=> duck); // new array for sorting by Name 
+    // sorting from A to Z of the array of Names
     ducksSortByNames.sort(function(a, b) {
-      // sort by name from
       let nameA = a.toLowerCase(),
         nameB = b.toLowerCase();
       if (nameA < nameB) return -1;
@@ -79,9 +79,13 @@ describe("Search results sorting", function() {
 
     expect(ducksNames).to.deep.equal(ducksSortByNames);
   });
+
+  after(function() {
+    browser.url("/");
+  });
 });
 
-// BONUS LEVEL - this test gives you 15 points
+// BONUS LEVEL
 describe("Contact us form", function() {
   it("must send messages to shop administration", function() {
     browser.url("/customer-service-s-0");
@@ -102,5 +106,9 @@ describe("Contact us form", function() {
     expect(sendConfirmationText).to.contain(
       "Your email has successfully been sent"
     );
+  });
+
+  after(function() {
+    browser.url("/");
   });
 });
