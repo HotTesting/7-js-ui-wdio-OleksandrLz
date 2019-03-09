@@ -31,11 +31,12 @@ export class ShoppingCart {
     const items = this.getQuantity();
     const quantityNumberInput = $('input[name*="quantity"]');
     quantityNumberInput.clearValue();
-    $('.loader-wrapper').waitForDisplayed(undefined, true); // waiting when loader become disabled
+    $(".loader-wrapper").waitForDisplayed(undefined, true); // waiting when loader become disabled
     return quantityNumberInput.setValue(items - 1);
   }
 
   updateCart(): any {
+    $(".loader-wrapper").waitForDisplayed(undefined, true); // waiting when loader become disabled
     const updateButton = $("button[name='update_cart_item']");
     updateButton.waitForDisplayed(4000);
     updateButton.click();
