@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { ProductDetails, Checkout, RegionSettings } from "../../pageObjects";
+import { ProductDetails, Checkout, MainSettings } from "../../pageObjects";
 
 describe("Cart", function() {
   beforeEach(function() {
@@ -8,10 +8,8 @@ describe("Cart", function() {
     Checkout.open();
   });
   afterEach(function() {
-    if ($("#box-checkout-cart").isDisplayed()) {
-      Checkout.open();
-      Checkout.shoppingCart.removeFromCart();
-    }
+    browser.deleteCookies();
+    browser.refresh();
   });
 
   it("adding one item to cart should be successful", function() {
@@ -48,9 +46,9 @@ describe("Cart", function() {
 
 describe("Prices", function() {
   it("can be switched to EUR", function() {
-    RegionSettings.open();
-    RegionSettings.currency.changeCurrencyToEUR();
-    const currency = RegionSettings.getCurrentCurrency();
+    MainSettings.regionSettings.open();
+    MainSettings.regionSettings.currency.changeCurrencyToEUR();
+    const currency = MainSettings.regionSettings.getCurrentCurrency();
     expect(currency).to.contain("EUR");
 
     ProductDetails.open("/rubber-ducks-c-1/purple-duck-p-5");

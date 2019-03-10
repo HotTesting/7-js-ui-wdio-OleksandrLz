@@ -1,7 +1,7 @@
-import { BasePO } from "./base";
-import { Currency } from "./fragments/currency";
+import { BasePO } from "../base";
+import { Currency } from "./currency";
 
-export class RegionSettingsPO extends BasePO {
+export class RegionSettings extends BasePO {
   public currency: Currency;
 
   constructor() {
@@ -18,5 +18,3 @@ export class RegionSettingsPO extends BasePO {
     return $("#region .currency > span").getText();
   }
 }
-
-export const RegionSettings = new RegionSettingsPO();
